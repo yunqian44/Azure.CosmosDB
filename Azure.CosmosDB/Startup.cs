@@ -2,8 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Azure.CosmosDB.Common;
 using Azure.CosmosDB.Context;
+using Azure.CosmosDB.Repository.Implements;
+using Azure.CosmosDB.Repository.Interface;
+using Azure.CosmosDB.Service;
+using Azure.CosmosDB.Service.AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -31,6 +36,18 @@ namespace Azure.CosmosDB
             services.AddSingleton(new Appsettings(Env.ContentRootPath));
 
             services.AddDbContext<UserContext>(options => options.UseCosmos(Appsettings.app("CosmosDB", "Endpoint"), Appsettings.app("CosmosDB", "Key"), Appsettings.app("CosmosDB", "DataBase")));
+
+            // 注入 应用层Application
+            services.AddScoped<IUserService, UserService>();
+
+            // 注入 基础设施层 - 数据层
+            services.AddScoped<IUserRepository, UserRepository>();
+
+            //添加服务
+            services.AddAutoMapper(typeof(AutoMapperConfig));
+            //启动配置
+            AutoMapperConfig.RegisterMappings();
+
 
             services.AddControllersWithViews();
         }

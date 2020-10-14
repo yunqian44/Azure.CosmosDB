@@ -1,6 +1,7 @@
 ﻿using Azure.CosmosDB.Repository.Interface;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization.Internal;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,28 +13,23 @@ namespace Azure.CosmosDB.Repository.Implements
     /// <summary>
     /// 基类仓储
     /// </summary>
-    public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity : class
+    public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity : class,new()
     {
         protected DbContext Db;
 
-        protected readonly DbSet<TEntity> DbSet;
-
-        public abstract void GetDb();//抽象方法，子类必须实现
-
-        public Repository(DbContext dbContext)
+        public async virtual Task<TEntity> GetById(string partitionKey)
         {
-            GetDb();//抽象方法
-            DbSet = Db.Set<TEntity>();
-        }
+            var props = typeof(TEntity).GetProperties();
+            var s = new TEntity();
+             
 
-        public async virtual Task<TEntity> GetById(int id)
-        {
-            return await DbSet.FindAsync(id);
+            
+            return await Db.Set<TEntity>().FindAsync( partitionKey, "");
         }
 
         public async virtual Task<TEntity> Add(TEntity entity)
         {
-            await DbSet.AddAsync(entity);
+            await Db.AddAsync<TEntity>(entity);
             return entity;
         }
 
@@ -45,24 +41,24 @@ namespace Azure.CosmosDB.Repository.Implements
 
         public virtual bool Remove(TEntity entity)
         {
-            DbSet.Remove(entity);
+            Db.Set<TEntity>().Remove(entity);
             return true;
 
         }
 
         public virtual IEnumerable<TEntity> GetAll()
         {
-            return DbSet;
+            return Db.Set<TEntity>();
         }
 
         public virtual IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> conditions)
         {
-            return DbSet.Where(conditions);
+            return Db.Set<TEntity>().Where(conditions);
         }
 
-        public int SaveChanges()
+        public async Task<int> SaveChangesAsync()
         {
-            return Db.SaveChanges();
+            return await Db.SaveChangesAsync();
         }
 
         public void Dispose()

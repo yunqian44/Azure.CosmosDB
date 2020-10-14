@@ -39,15 +39,16 @@ namespace Azure.CosmosDB.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //针对于HasData限制（即使主键是由数据库生成的自动增长），也需要指定主键 
+            modelBuilder.Entity<UserModel>()
+                .HasPartitionKey(o => o.PartitionKey);
 
             //调用EnsureCreated方法只针对与添加数据有效，但是数据库如果有数据的话，
             //也就是对数据更改将无效
             Console.WriteLine("**********Blog表开始初始化数据**********");
             #region 数据库数据映射
             modelBuilder.Entity<UserModel>().HasData(
-                   //new Blog{Id=1,Name="DDD领域驱动模型"},
-                   new UserModel { Id = 1, Name = "EntityFramework Core 3.1.1" },
-                  new UserModel { Id = 2, Name = "EntityFramework Core 3.1.6" });
+                   new UserModel { PartitionKey="1", Id = 1, Name = "张无忌",Age=12,Address="北京市西城区鲍家街43号",Remark="中央音乐学院" },
+                   new UserModel { PartitionKey = "2", Id = 2, Name = "令狐冲",Age=20,Address= "佛山市南海区灯湖东路6号", Remark="广发商学院" });
 
             #endregion
 

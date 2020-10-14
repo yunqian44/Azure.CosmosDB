@@ -16,20 +16,20 @@ namespace Azure.CosmosDB.Service
         /// <summary>
         /// 获取单个数据
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="partitionKey"></param>
         /// <returns></returns>
-        T GetById(int id);
+        T GetById(string partitionKey);
 
         /// <summary>
         /// 更新数据
         /// </summary>
         /// <param name="viewmodel"></param>
-        void Update(T viewmodel);
+        Task<int> Update(T viewmodel);
 
         /// <summary>
         /// 删除数据
         /// </summary>
-        /// <param name="id"></param>
-        void Remove(int id);
+        /// <param name="partitionKey"></param>
+        void Remove(string partitionKey);
     }
 }

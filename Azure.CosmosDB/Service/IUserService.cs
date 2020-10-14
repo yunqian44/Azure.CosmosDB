@@ -12,6 +12,6 @@ namespace Azure.CosmosDB.Service
         /// 注册
         /// </summary>
         /// <param name="userViewModel"></param>
-        void Register(UserViewModel userViewModel);
+        Task<int> Register(UserViewModel userViewModel);
     }
 }

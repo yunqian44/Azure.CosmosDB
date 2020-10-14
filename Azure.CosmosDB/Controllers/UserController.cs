@@ -49,8 +49,7 @@ namespace Azure.CosmosDB.Controllers
             try
             {
                 // TODO: Add insert logic here
-                //_cache.Remove("ErrorData");
-                //ViewBag.ErrorData = null;
+
                 // 视图模型验证
                 if (!ModelState.IsValid)
                     return View(userViewModel);
@@ -58,9 +57,8 @@ namespace Azure.CosmosDB.Controllers
 
                 // 执行添加方法
                 _userService.Register(userViewModel);
-                ViewBag.Sucesso = "用户注册成功！";
 
-                return View(userViewModel);
+                return RedirectToAction(nameof(Index));
             }
             catch
             {
@@ -69,19 +67,25 @@ namespace Azure.CosmosDB.Controllers
         }
 
         // GET: User/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(string partitionKey)
         {
-            return View();
+            return View(_userService.GetById(partitionKey));
         }
 
         // POST: User/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(UserViewModel userViewModel)
         {
             try
             {
                 // TODO: Add update logic here
+                // 视图模型验证
+                if (!ModelState.IsValid)
+                    return View(userViewModel);
+
+                // 执行添加方法
+                _userService.Update(userViewModel);
 
                 return RedirectToAction(nameof(Index));
             }

@@ -11,9 +11,9 @@ namespace Azure.CosmosDB.Repository.Interface
         /// <summary>
         /// 根据Id获取对象
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="partitionKey"></param>
         /// <returns></returns>
-        Task<TEntity> GetById(int id);
+        Task<TEntity> GetById(string partitionKey);
 
         /// <summary>
         /// 添加
@@ -51,6 +51,6 @@ namespace Azure.CosmosDB.Repository.Interface
         /// 保存
         /// </summary>
         /// <returns></returns>
-        int SaveChanges();
+        Task<int> SaveChangesAsync();
     }
 }

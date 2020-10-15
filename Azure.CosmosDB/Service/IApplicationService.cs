@@ -24,7 +24,7 @@ namespace Azure.CosmosDB.Service
         /// 更新数据
         /// </summary>
         /// <param name="viewmodel"></param>
-        Task<int> Update(T viewmodel);
+        int Update(T viewmodel);
 
         /// <summary>
         /// 删除数据

@@ -30,9 +30,22 @@ namespace Azure.CosmosDB.Controllers
         }
 
         // GET: User/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(string partitionKey)
         {
-            return View();
+            try
+            {
+                // TODO: Add insert logic here
+
+                // 执行查询方法
+                var userViewModel= _userService.GetById(partitionKey);
+
+
+                return View(userViewModel);
+            }
+            catch
+            {
+                return View();
+            }
         }
 
         // GET: User/Create
@@ -77,8 +90,8 @@ namespace Azure.CosmosDB.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(UserViewModel userViewModel)
         {
-            try
-            {
+            //try
+            //{
                 // TODO: Add update logic here
                 // 视图模型验证
                 if (!ModelState.IsValid)
@@ -88,33 +101,29 @@ namespace Azure.CosmosDB.Controllers
                 _userService.Update(userViewModel);
 
                 return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: User/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
+            //}
+            //catch(Exception ex)
+            //{
+                
+            //    //return View(ex);
+            //}
         }
 
         // POST: User/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        [HttpGet]
+        public ActionResult Delete(string partitionKey)
         {
             try
             {
                 // TODO: Add delete logic here
+                // 执行添加方法
+                _userService.Remove(partitionKey);
 
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                return RedirectToAction(nameof(Index));
             }
         }
     }

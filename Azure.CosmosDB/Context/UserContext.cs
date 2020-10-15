@@ -47,8 +47,8 @@ namespace Azure.CosmosDB.Context
             Console.WriteLine("**********Blog表开始初始化数据**********");
             #region 数据库数据映射
             modelBuilder.Entity<UserModel>().HasData(
-                   new UserModel { PartitionKey="1", Id = 1, Name = "张无忌",Age=12,Address="北京市西城区鲍家街43号",Remark="中央音乐学院" },
-                   new UserModel { PartitionKey = "2", Id = 2, Name = "令狐冲",Age=20,Address= "佛山市南海区灯湖东路6号", Remark="广发商学院" });
+                   new UserModel { PartitionKey = "1", Id = 1, Name = "张无忌", Age = 12, Address = "北京市西城区鲍家街43号", Remark = "中央音乐学院" },
+                   new UserModel { PartitionKey = "2", Id = 2, Name = "令狐冲", Age = 20, Address = "佛山市南海区灯湖东路6号", Remark = "广发商学院" });
 
             #endregion
 

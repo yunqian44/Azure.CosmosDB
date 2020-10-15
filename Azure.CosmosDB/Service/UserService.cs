@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using Azure.CosmosDB.Models;
 using Azure.CosmosDB.Repository.Interface;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
 namespace Azure.CosmosDB.Service
@@ -43,12 +45,13 @@ namespace Azure.CosmosDB.Service
 
         public UserViewModel GetById(string partitionKey)
         {
-            var s = _UserRepository.GetById(partitionKey);
-            return _mapper.Map<UserViewModel>(s);
+            return _mapper.Map<UserViewModel>(_UserRepository.GetById(partitionKey).Result);
         }
 
         public async Task<int> Register(UserViewModel userViewModel)
         {
+            var partitionKey = _UserRepository.GetAll().Max(x => int.Parse(x.PartitionKey));
+            userViewModel.PartitionKey = (++partitionKey).ToString();
             await _UserRepository.Add(_mapper.Map<UserModel>(userViewModel));
             return await _UserRepository.SaveChangesAsync();
         }
@@ -56,14 +59,14 @@ namespace Azure.CosmosDB.Service
         public void Remove(string partitionKey)
         {
 
-            _UserRepository.Remove(_mapper.Map<UserModel>(_UserRepository.GetById(partitionKey)));
+            _UserRepository.Remove(_mapper.Map<UserModel>(_UserRepository.GetById(partitionKey).Result));
             _UserRepository.SaveChangesAsync();
         }
 
-        public async Task<int> Update(UserViewModel userViewModel)
+        public int Update(UserViewModel userViewModel)
         {
             _UserRepository.Update(_mapper.Map<UserModel>(userViewModel));
-            return await _UserRepository.SaveChangesAsync();
+            return _UserRepository.SaveChanges();
         }
     }
 }

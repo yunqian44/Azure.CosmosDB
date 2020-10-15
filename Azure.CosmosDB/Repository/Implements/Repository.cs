@@ -19,12 +19,7 @@ namespace Azure.CosmosDB.Repository.Implements
 
         public async virtual Task<TEntity> GetById(string partitionKey)
         {
-            var props = typeof(TEntity).GetProperties();
-            var s = new TEntity();
-             
-
-            
-            return await Db.Set<TEntity>().FindAsync( partitionKey, "");
+            return await Db.Set<TEntity>().FindAsync( partitionKey);
         }
 
         public async virtual Task<TEntity> Add(TEntity entity)
@@ -35,6 +30,7 @@ namespace Azure.CosmosDB.Repository.Implements
 
         public virtual bool Update(TEntity entity)
         {
+            Db.Add(entity);
             Db.Entry(entity).State = EntityState.Modified;
             return true;
         }
@@ -43,7 +39,6 @@ namespace Azure.CosmosDB.Repository.Implements
         {
             Db.Set<TEntity>().Remove(entity);
             return true;
-
         }
 
         public virtual IEnumerable<TEntity> GetAll()
@@ -59,6 +54,11 @@ namespace Azure.CosmosDB.Repository.Implements
         public async Task<int> SaveChangesAsync()
         {
             return await Db.SaveChangesAsync();
+        }
+
+        public int SaveChanges()
+        {
+            return  Db.SaveChanges();
         }
 
         public void Dispose()

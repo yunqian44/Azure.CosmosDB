@@ -52,5 +52,12 @@ namespace Azure.CosmosDB.Repository.Interface
         /// </summary>
         /// <returns></returns>
         Task<int> SaveChangesAsync();
+
+
+        /// <summary>
+        /// 保存
+        /// </summary>
+        /// <returns></returns>
+        int SaveChanges();
     }
 }

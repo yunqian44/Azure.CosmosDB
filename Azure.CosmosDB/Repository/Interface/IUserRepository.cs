@@ -12,6 +12,6 @@ namespace Azure.CosmosDB.Repository.Interface
     public interface IUserRepository : IRepository<UserModel>
     {
         //一些UserModel独有的接口
-        Task<UserModel> GetByName(string email);
+        Task<UserModel> GetByName(string name);
     }
 }

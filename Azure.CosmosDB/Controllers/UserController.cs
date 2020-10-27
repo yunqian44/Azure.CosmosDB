@@ -15,12 +15,9 @@ namespace Azure.CosmosDB.Controllers
         //
         private readonly IUserService _userService;
 
-        private IMemoryCache _cache;
-
-        public UserController(IUserService userService, IMemoryCache cache)
+        public UserController(IUserService userService)
         {
             _userService = userService;
-            _cache = cache;
         }
 
         // GET: User

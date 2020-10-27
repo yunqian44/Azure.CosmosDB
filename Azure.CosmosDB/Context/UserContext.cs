@@ -38,9 +38,11 @@ namespace Azure.CosmosDB.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //针对于HasData限制（即使主键是由数据库生成的自动增长），也需要指定主键 
+            //配置分区键 
             modelBuilder.Entity<UserModel>()
-                .HasPartitionKey(o => o.PartitionKey);
+                .HasPartitionKey(o => o.PartitionKey)
+                .HasKey(o => o.PartitionKey);
+                
 
             //调用EnsureCreated方法只针对与添加数据有效，但是数据库如果有数据的话，
             //也就是对数据更改将无效
@@ -51,8 +53,6 @@ namespace Azure.CosmosDB.Context
                    new UserModel { PartitionKey = "2", Id = 2, Name = "令狐冲", Age = 20, Address = "佛山市南海区灯湖东路6号", Remark = "广发商学院" });
 
             #endregion
-
-
         }
 
     }

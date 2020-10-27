@@ -8,7 +8,6 @@ namespace Azure.CosmosDB.Models
 {
     public class UserModel
     {
-        [Key]
         public string PartitionKey { get; set; }
 
         public int Id { get; set; }

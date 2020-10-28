@@ -35,7 +35,7 @@ namespace Azure.CosmosDB
         {
             services.AddSingleton(new Appsettings(Env.ContentRootPath));
 
-            services.AddDbContext<UserContext>(options => options.UseCosmos(Appsettings.app("CosmosDB", "Endpoint"), Appsettings.app("CosmosDB", "Key"), Appsettings.app("CosmosDB", "DataBase"), cosmosOptionsAction => cosmosOptionsAction.Region(Appsettings.app("CosmosDB", "region"))));
+            services.AddDbContext<UserContext>(options => options.UseCosmos(Appsettings.app("CosmosDB", "Endpoint"), Appsettings.app("CosmosDB", "Key"), Appsettings.app("CosmosDB", "DataBase"), cosmosOptionsAction => cosmosOptionsAction.Region(Appsettings.app("CosmosDB", "Region"))));
 
             // ◊¢»Î ”¶”√≤„Application
             services.AddScoped<IUserService, UserService>();

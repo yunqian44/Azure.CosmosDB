@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,9 +7,8 @@ namespace Azure.CosmosDB.ConsoleDemo.Model
 {
     public class UserModel
     {
-        public string PartitionKey { get; set; }
-
-        public int Id { get; set; }
+        [JsonProperty(PropertyName = "id")]
+        public string Id { get; set; }
 
         public string Name { get; set; }
 

@@ -1,2 +1,2 @@
 # Azure.CosmosDB
-ASP.NET CORE WEB Project With Azure CosmosDB Sample
+ASP.NET CORE Web With Azure CosmosDB Sample
